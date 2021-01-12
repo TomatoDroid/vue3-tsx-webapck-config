@@ -71,8 +71,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "hooks": {
-    "pre-push": "npm ",
-    "pre-commit": "exec < /dev/tty && git cz --hook || true"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run cm"
+    }
   }
 }

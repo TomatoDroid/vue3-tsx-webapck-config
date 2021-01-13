@@ -1,19 +1,25 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
-
 const path = require('path');
+const webpack = require('webpack');
+
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   entry: './src/main.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash:8].js',
+    chunkFilename: 'chunk-[hash:8].js',
     publicPath: '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      '@': '/Users/zhensir/zhen-git/vue3-tsx-webapck-config/src',
+    },
   },
   module: {
     rules: [
@@ -30,6 +36,7 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
+              transpileOnly: true,
               happyPackMode: true,
             },
           },
@@ -39,20 +46,21 @@ module.exports = {
       {
         test: /\.(le|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                exportLocalsConvention: 'camelCaseOnly',
+              },
+            },
+          },
           {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  [
-                    'autoprefixer',
-                    {
-                      // Options
-                    },
-                  ],
-                ],
+                plugins: [['autoprefixer']],
               },
             },
           },
@@ -83,11 +91,9 @@ module.exports = {
       filename: 'index.html',
     }),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name]_[contenthash:8].css', //个人习惯将css文件放在单独目录下
-    }),
     new ESLintPlugin({
       extensions: ['ts', 'js'],
     }),
+    new webpack.WatchIgnorePlugin([/(le|c)ss\.d\.ts$/]),
   ],
 };

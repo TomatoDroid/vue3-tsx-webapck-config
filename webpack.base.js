@@ -4,6 +4,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
+const WebpackBar = require('webpackbar');
+const package = require('./package.json');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -102,5 +104,9 @@ module.exports = {
       extensions: ['ts', 'js'],
     }),
     new webpack.WatchIgnorePlugin([/(le|c)ss\.d\.ts$/]),
+    new WebpackBar({
+      name: `🚚  ${package.name}`,
+      color: '#2f54eb',
+    }),
   ],
 };

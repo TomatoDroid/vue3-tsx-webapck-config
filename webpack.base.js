@@ -14,7 +14,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash:8].js',
-    chunkFilename: 'chunk-[hash:8].js',
+    chunkFilename: '[name]-[hash:8].js',
     publicPath: '/',
   },
   resolve: {
@@ -50,6 +50,7 @@ module.exports = {
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
+          'postcss-loader',
         ],
       },
       {
@@ -65,14 +66,7 @@ module.exports = {
               },
             },
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [['autoprefixer']],
-              },
-            },
-          },
+          'postcss-loader',
           'less-loader',
         ],
         exclude: /node_modules/,

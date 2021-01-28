@@ -1,38 +1,25 @@
+import type { StorePropType } from '@/store/index';
 import { Menu } from 'ant-design-vue';
-import { defineComponent, reactive, toRaw, watchEffect } from 'vue';
-
+import { computed, defineComponent, reactive, toRaw, watchEffect } from 'vue';
 import { syncRoutes } from '@/routes/router';
 import { AppRouteRecordRaw } from '@/routes/types';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import Icon from '@/components/icon';
+import useMenus from '@/hooks/useMenus';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'SimpleMenu',
   setup() {
-    const recursionJionMenuPath = (
-      menu: AppRouteRecordRaw,
-      parentPath = ''
-    ) => {
-      parentPath = parentPath ? `${parentPath}/${menu.path}` : menu.path;
-      if (menu.children) {
-        menu.children.forEach((child) => {
-          recursionJionMenuPath(child, parentPath);
-        });
-      }
-      menu.path = parentPath;
-      return menu;
-    };
-
-    const menus = syncRoutes.map((route) => recursionJionMenuPath(route));
-    const rootSubmenuKeys = syncRoutes.map((route) => route.path);
+    const { menus } = useMenus(syncRoutes);
 
     const menuData: { openKeys: string[]; selectedKeys: string[] } = reactive({
       openKeys: [],
       selectedKeys: [],
     });
 
+    const rootSubmenuKeys = menus.map((route) => route.path);
     const onOpenChange = (openKeys: string[]) => {
-      const a = toRaw(menuData.openKeys);
-      debugger;
       const latestOpenKey = openKeys.find((key) => {
         return menuData.openKeys.indexOf(key) === -1;
       });
@@ -43,40 +30,71 @@ export default defineComponent({
       }
     };
 
-    watchEffect(() => {
-      const { path, matched } = useRoute();
+    const route = useRoute();
+    const updateMenuData = () => {
+      const { path, matched } = route;
       const parentKeys = matched.map((item) => item.path);
       menuData.openKeys = parentKeys;
       menuData.selectedKeys = [path];
+    };
+    watchEffect(() => {
+      updateMenuData();
     });
 
-    const recursionRenderSubMenu = (menus: AppRouteRecordRaw[]) => {
+    const recursionRenderSubMenu = (menus: AppRouteRecordRaw[]): any => {
       return menus.map((menu) => {
-        if (!menu.children) {
-          return <Menu.Item key={menu.path}>{menu.meta.title}</Menu.Item>;
-        } else {
+        if (menu.children) {
           return (
             <Menu.SubMenu key={menu.path}>
               {{
-                title: () => <span>{menu.meta.title}</span>,
+                title: () => (
+                  <>
+                    <Icon icon={menu.meta.icon}></Icon>
+                    <span class="ml-2">{menu.meta.title}</span>
+                  </>
+                ),
                 default: () =>
                   menu.children && recursionRenderSubMenu(menu.children),
               }}
             </Menu.SubMenu>
           );
+        } else {
+          return (
+            <Menu.Item key={menu.path}>
+              <Icon icon={menu.meta.icon}></Icon>
+              <span class="ml-2">{menu.meta.title}</span>
+            </Menu.Item>
+          );
         }
       });
     };
 
+    const router = useRouter();
+    const onClick = ({ key }: { key: string }) => {
+      router.push(key);
+    };
+
+    const store = useStore<StorePropType>();
+    const collapsedRef = computed(() => store.state.collapsed);
+    watchEffect(() => {
+      if (collapsedRef.value) {
+        menuData.openKeys = [];
+      } else {
+        updateMenuData();
+      }
+    });
+
     return () => {
       return (
         <Menu
+          class="w-full"
           theme="dark"
           mode="inline"
           openKeys={menuData.openKeys}
           v-model={[menuData.selectedKeys, 'selectedKeys', ['modifier']]}
           onOpenChange={onOpenChange}
-          // onClick={onClick}
+          onClick={onClick}
+          inline-collapsed={collapsedRef.value}
         >
           {recursionRenderSubMenu(menus)}
         </Menu>

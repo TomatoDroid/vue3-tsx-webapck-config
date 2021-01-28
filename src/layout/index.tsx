@@ -1,27 +1,34 @@
+import type { StorePropType } from '@/store/index';
 import { Layout } from 'ant-design-vue';
-import { defineComponent, Ref, ref } from 'vue';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 import SimpleMenu from './SimpleMenu';
 import logo from '@/assets/images/logo.png';
+import { RouterView } from 'vue-router';
+import LayoutMultipleHeader from './header/LayoutMultipleHeader';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: '',
   setup() {
-    const collapsedRef: Ref = ref(false);
     const siderStyle = {
       background: '#001529',
     };
 
-    const renderHeader = () => {
+    const store = useStore<StorePropType>();
+    const collapsedRef = computed(() => store.state.collapsed);
+
+    const renderLogoHeader = () => {
       return (
         <div
           style="height: 48px; padding:10px;"
-          class="flex items-center cursor-pointer"
+          class="flex justify-center items-center cursor-pointer"
         >
           <img src={logo} style="height:32px; width:32px;"></img>
-          <div class="text-sm pl-4" style="color: #fff">
-            Zhen Admin
-          </div>
+          {!collapsedRef.value ? (
+            <div class="text-base pl-4" style="color: #fff">
+              Zhen Admin
+            </div>
+          ) : null}
         </div>
       );
     };
@@ -30,32 +37,20 @@ export default defineComponent({
         <Layout class="h-full">
           <Layout.Sider
             style={siderStyle}
-            v-model={[collapsedRef.value, 'collapsed', ['modifier']]}
+            collapsed={collapsedRef.value}
             collapsedWidth={80}
-            collapsed={true}
             trigger={null}
             width={230}
             class="h-full flex flex-col"
           >
-            {renderHeader()}
+            {renderLogoHeader()}
             <SimpleMenu style="height: 'calc(100% - 48px)'"></SimpleMenu>
           </Layout.Sider>
           <Layout class="h-full">
-            <Layout.Header class="bg-green-200 p-0 flex" style="height:80px">
-              <span
-                class="cursor-pointer flex h-full items-center"
-                style="padding: 1px 10px 0 16px"
-                onClick={() => (collapsedRef.value = !collapsedRef.value)}
-              >
-                {collapsedRef.value ? (
-                  <MenuUnfoldOutlined />
-                ) : (
-                  <MenuFoldOutlined />
-                )}
-              </span>
-              header
-            </Layout.Header>
-            <Layout.Content>content</Layout.Content>
+            <LayoutMultipleHeader></LayoutMultipleHeader>
+            <Layout.Content>
+              <RouterView></RouterView>
+            </Layout.Content>
             <Layout.Footer>footer</Layout.Footer>
           </Layout>
         </Layout>

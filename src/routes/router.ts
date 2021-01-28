@@ -13,6 +13,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
       import(/* webpackChunkName: "login" */ '@/views/login/Login'),
     meta: {
       title: '登录',
+      hideMenu: true,
     },
   },
   {
@@ -21,6 +22,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     redirect: '/home/welcome',
     meta: {
       title: 'Root',
+      hideMenu: true,
     },
   },
   {
@@ -30,7 +32,6 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     redirect: '/home/welcome',
     meta: {
       title: '首页',
-      icon: '',
     },
     children: [
       {
@@ -38,8 +39,8 @@ export const syncRoutes: AppRouteRecordRaw[] = [
         name: 'Welcome',
         component: TestPage,
         meta: {
-          title: 'welcome',
-          icon: '',
+          title: '首页',
+          icon: 'bx:bx-home',
         },
       },
     ],
@@ -51,7 +52,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     redirect: '/dashboard/workbench',
     meta: {
       title: 'Dashboard',
-      icon: '',
+      icon: 'bx:bx-home',
     },
     children: [
       {
@@ -75,13 +76,49 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     ],
   },
   {
+    path: '/permission',
+    name: 'Permission',
+    component: Layout,
+    redirect: '/permission/font/page',
+    meta: { title: '', icon: 'carbon:user-role' },
+    children: [
+      {
+        path: 'font',
+        name: 'Font',
+        component: TestPage,
+        redirect: '/permission/font/page',
+        meta: { title: '基于前端权限', icon: 'carbon:user-role' },
+        children: [
+          {
+            path: 'page',
+            name: 'Page',
+            component: TestPage,
+            meta: { title: '页面权限' },
+          },
+          {
+            path: 'btn',
+            name: 'Btn',
+            component: TestPage,
+            meta: { title: '按钮权限' },
+          },
+          {
+            path: 'auth-pageA',
+            name: 'AuthPageA',
+            component: TestPage,
+            meta: { title: '权限测试页面' },
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/comp',
     name: 'Comp',
     component: Layout,
     redirect: '/comp/basic',
     meta: {
       title: 'comp',
-      icon: '',
+      icon: 'ic:outline-settings-input-component',
     },
     children: [
       {
@@ -90,7 +127,6 @@ export const syncRoutes: AppRouteRecordRaw[] = [
         component: TestPage,
         meta: {
           title: 'basic',
-          icon: '',
         },
         children: [
           {
@@ -147,6 +183,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     meta: {
       title: 'test',
       icon: '',
+      hideMenu: true,
     },
     component: () => import(/* webpackChunkName: "input" */ '@/views/input'),
   },

@@ -1,8 +1,8 @@
 import { defineComponent, reactive, ref, Ref } from 'vue';
+import { Checkbox, Col, Form, Input, Row, Button } from 'ant-design-vue';
 import styles from './login.module.less';
 import { useForm } from '@ant-design-vue/use';
 import logo from '@/assets/images/logo.png';
-import { Checkbox, Col, Form, Input, Row, Button } from 'ant-design-vue';
 
 export default defineComponent({
   name: 'login',

@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+const { PurgeIcons } = require('purge-icons-webpack-plugin');
 
 const smp = new SpeedMeasurePlugin();
 const baseConfig = require('./webpack.base');
@@ -23,6 +24,7 @@ const config = merge(baseConfig, {
       __VUE_OPTIONS_API__: JSON.stringify(true),
       __VUE_PROD_DEVTOOLS__: JSON.stringify(false),
     }),
+    // new PurgeIcons(),
   ],
 });
 

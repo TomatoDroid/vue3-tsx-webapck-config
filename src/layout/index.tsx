@@ -4,7 +4,7 @@ import SimpleMenu from './SimpleMenu';
 import logo from '@/assets/images/logo.png';
 import { RouterView } from 'vue-router';
 import MultipleHeader from './header/MultipleHeader';
-import { useStore } from '@/store/index';
+import { appStore } from '@/store/modules/app';
 
 export default defineComponent({
   name: '',
@@ -13,8 +13,7 @@ export default defineComponent({
       background: '#001529',
     };
 
-    const store = useStore();
-    const collapsedRef = computed(() => store.state.collapsed);
+    const collapsedRef = computed(() => appStore.collapsed);
 
     const renderLogoHeader = () => {
       return (

@@ -1,28 +1,30 @@
 import type { RouteLocationNormalized } from 'vue-router';
-import type { Module } from 'vuex';
-import type { RootStorePropType } from '../index';
+import {
+  VuexModule,
+  Module,
+  Mutation,
+  Action,
+  getModule,
+} from 'vuex-module-decorators';
+import store from '@/store/index';
 
-export interface TabStoreProps {
-  tabsState: RouteLocationNormalized[];
+@Module({ name: 'tab', dynamic: true, store })
+class Tab extends VuexModule {
+  tabsState: RouteLocationNormalized[] = [];
+
+  get getTabsState(): RouteLocationNormalized[] {
+    return this.tabsState;
+  }
+
+  @Mutation
+  commitTabRoutesState(route: RouteLocationNormalized): void {
+    this.tabsState.push(route);
+  }
+
+  @Action
+  addTabAction(route: RouteLocationNormalized): void {
+    this.commitTabRoutesState(route);
+  }
 }
-export const tab: Module<TabStoreProps, RootStorePropType> = {
-  namespaced: true,
-  state: {
-    tabsState: [],
-  },
-  getters: {
-    getTabsState(state) {
-      return state.tabsState;
-    },
-  },
-  mutations: {
-    commitTabRoutesState(state, route: RouteLocationNormalized) {
-      state.tabsState.push(route);
-    },
-  },
-  actions: {
-    addTabAction({ commit }, route: RouteLocationNormalized) {
-      commit('commitTabRoutesState', route);
-    },
-  },
-};
+
+export const tabStore = getModule(Tab);

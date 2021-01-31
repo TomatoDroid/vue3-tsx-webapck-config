@@ -5,7 +5,7 @@ import { AppRouteRecordRaw } from '@/routes/types';
 import { useRoute, useRouter } from 'vue-router';
 import Icon from '@/components/icon';
 import useMenus from '@/hooks/useMenus';
-import { useStore } from '@/store/index';
+import { appStore } from '@/store/modules/app';
 import _ from 'lodash';
 
 export default defineComponent({
@@ -74,8 +74,8 @@ export default defineComponent({
       router.push(key);
     };
 
-    const store = useStore();
-    const collapsedRef = computed(() => store.state.collapsed);
+    const collapsedRef = computed(() => appStore.collapsed);
+
     watchEffect(() => {
       if (collapsedRef.value) {
         menuData.openKeys = [];

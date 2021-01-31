@@ -1,4 +1,3 @@
-// import type { GlobalStorePropType } from '@/store/index';
 import { RouteLocationMatched, RouterLink } from 'vue-router';
 
 import {
@@ -12,7 +11,7 @@ import {
 } from 'vue';
 import { Breadcrumb, Layout } from 'ant-design-vue';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
-import { useStore } from '@/store/index';
+import { appStore } from '@/store/modules/app';
 import { useRoute } from 'vue-router';
 import useMenus from '@/hooks/useMenus';
 import { syncRoutes } from '@/routes/router';
@@ -24,17 +23,15 @@ import MultipleTabs from '../tabs/MultipleTabs';
 export default defineComponent({
   name: 'LayoutMultipleHeader',
   setup() {
-    const store = useStore();
-    const collapsedRef = computed(() => store.state.collapsed);
+    const collapsedRef = computed(() => appStore.collapsed);
+    // const tabsStateRef = computed(() => store.state.tab.tabsState);
 
-    const tabsStateRef = computed(() => store.state.tab.tabsState);
-
-    onMounted(() => {
-      console.log('tabsStateRef', toRaw(tabsStateRef.value));
-    });
+    // onMounted(() => {
+    //   console.log('tabsStateRef', toRaw(tabsStateRef.value));
+    // });
 
     const onClick = () => {
-      store.commit('toggleCollapsed');
+      appStore.commitToggleCollapsed();
     };
 
     const { menus } = useMenus(cloneDeep(syncRoutes));

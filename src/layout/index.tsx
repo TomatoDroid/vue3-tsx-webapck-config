@@ -1,11 +1,10 @@
-import type { StorePropType } from '@/store/index';
 import { Layout } from 'ant-design-vue';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import SimpleMenu from './SimpleMenu';
 import logo from '@/assets/images/logo.png';
 import { RouterView } from 'vue-router';
-import LayoutMultipleHeader from './header/LayoutMultipleHeader';
-import { useStore } from 'vuex';
+import MultipleHeader from './header/MultipleHeader';
+import { useStore } from '@/store/index';
 
 export default defineComponent({
   name: '',
@@ -14,7 +13,7 @@ export default defineComponent({
       background: '#001529',
     };
 
-    const store = useStore<StorePropType>();
+    const store = useStore();
     const collapsedRef = computed(() => store.state.collapsed);
 
     const renderLogoHeader = () => {
@@ -47,7 +46,7 @@ export default defineComponent({
             <SimpleMenu style="height: 'calc(100% - 48px)'"></SimpleMenu>
           </Layout.Sider>
           <Layout class="h-full">
-            <LayoutMultipleHeader></LayoutMultipleHeader>
+            <MultipleHeader></MultipleHeader>
             <Layout.Content>
               <RouterView></RouterView>
             </Layout.Content>

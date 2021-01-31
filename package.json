@@ -81,7 +81,8 @@
     "ts-loader": "^8.0.14",
     "vue": "^3.0.5",
     "vue-router": "^4.0.2",
-    "vuex": "^4.0.0-rc.2"
+    "vuex": "^4.0.0-rc.2",
+    "vuex-module-decorators": "^1.0.1"
   },
   "config": {
     "commitizen": {

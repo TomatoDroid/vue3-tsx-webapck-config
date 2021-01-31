@@ -52,7 +52,7 @@ function recursionJionMenuPath(menu: AppRouteRecordRaw, parentPath = '') {
   这样的菜单只显示children的
  * @param route
  */
-function transformMenu(route: AppRouteRecordRaw): AppRouteRecordRaw {
+export function transformMenu(route: AppRouteRecordRaw): AppRouteRecordRaw {
   if (!route.children) {
     return route;
   }

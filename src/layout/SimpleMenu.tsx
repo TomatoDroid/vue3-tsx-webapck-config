@@ -1,4 +1,3 @@
-import type { StorePropType } from '@/store/index';
 import { Menu } from 'ant-design-vue';
 import { computed, defineComponent, reactive, toRaw, watchEffect } from 'vue';
 import { syncRoutes } from '@/routes/router';
@@ -6,12 +5,13 @@ import { AppRouteRecordRaw } from '@/routes/types';
 import { useRoute, useRouter } from 'vue-router';
 import Icon from '@/components/icon';
 import useMenus from '@/hooks/useMenus';
-import { useStore } from 'vuex';
+import { useStore } from '@/store/index';
+import _ from 'lodash';
 
 export default defineComponent({
   name: 'SimpleMenu',
   setup() {
-    const { menus } = useMenus(syncRoutes);
+    const { menus } = useMenus(_.cloneDeep(syncRoutes));
 
     const menuData: { openKeys: string[]; selectedKeys: string[] } = reactive({
       openKeys: [],
@@ -74,7 +74,7 @@ export default defineComponent({
       router.push(key);
     };
 
-    const store = useStore<StorePropType>();
+    const store = useStore();
     const collapsedRef = computed(() => store.state.collapsed);
     watchEffect(() => {
       if (collapsedRef.value) {
@@ -86,6 +86,7 @@ export default defineComponent({
 
     return () => {
       return (
+        // TODO 添加scroll
         <Menu
           class="w-full"
           theme="dark"

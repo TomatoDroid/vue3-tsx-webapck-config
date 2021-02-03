@@ -32,10 +32,16 @@ export default defineComponent({
 
     const route = useRoute();
     const updateMenuData = () => {
-      const { path, matched } = route;
+      const { path, matched, meta } = route;
+      const { currentActiveMenu } = meta;
       const parentKeys = matched.map((item) => item.path);
       menuData.openKeys = parentKeys;
-      menuData.selectedKeys = [path];
+
+      if (currentActiveMenu) {
+        menuData.selectedKeys = [currentActiveMenu];
+      } else {
+        menuData.selectedKeys = [path];
+      }
     };
     watchEffect(() => {
       updateMenuData();

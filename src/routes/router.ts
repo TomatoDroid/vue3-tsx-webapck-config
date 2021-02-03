@@ -2,6 +2,7 @@ import type { AppRouteRecordRaw } from '@/routes/types';
 import type { RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Layout from '@/layout/index';
+import { createPageGuard } from './pageGuard';
 
 import TestPage from '@/views/TestPage';
 
@@ -61,7 +62,6 @@ export const syncRoutes: AppRouteRecordRaw[] = [
         component: TestPage,
         meta: {
           title: '工作台',
-          icon: '',
         },
       },
       {
@@ -70,7 +70,6 @@ export const syncRoutes: AppRouteRecordRaw[] = [
         component: TestPage,
         meta: {
           title: '分析页',
-          icon: '',
         },
       },
     ],
@@ -178,6 +177,91 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     ],
   },
   {
+    path: '/feat',
+    name: 'FeatDemo',
+    component: Layout,
+    redirect: '/feat/icon',
+    meta: {
+      title: '功能',
+      icon: 'ic:outline-featured-play-list',
+    },
+    children: [
+      {
+        path: 'icon',
+        name: 'Icon',
+        component: () =>
+          import(/* webpackChunkName: "input" */ '@/views/input'),
+        meta: {
+          title: '图标',
+        },
+      },
+      {
+        path: 'breadcrumb',
+        name: 'BreadcrumbDemo',
+        redirect: '/feat/breadcrumb/flat',
+        component: () =>
+          import(
+            /* webpackChunkName: "ParentView" */ '@/layout/page/ParentView'
+          ),
+        meta: {
+          title: '面包屑导航',
+        },
+        children: [
+          {
+            path: 'flat',
+            name: 'BreadcrumbFlatDemo',
+            component: () =>
+              import(
+                /* webpackChunkName: "FlatListDetail" */ '@/views/demo/feat/breadcrumb/FlatListDetail'
+              ),
+            meta: {
+              title: '平级模式',
+            },
+          },
+          {
+            path: 'children',
+            name: 'BreadcrumbChildrenDemo',
+            redirect: '/feat/breadcrumb/children',
+            component: () =>
+              import(
+                /* webpackChunkName: "ParentView" */ '@/layout/page/ParentView'
+              ),
+            meta: {
+              title: '层级详情',
+            },
+            children: [
+              {
+                path: '',
+                name: 'BreadcrumbChildren',
+                component: () =>
+                  import(
+                    /* webpackChunkName: "ChildrenList" */ '@/views/demo/feat/breadcrumb/ChildrenList'
+                  ),
+                meta: {
+                  title: '层级列表',
+                },
+              },
+              {
+                path: 'childrenDetail',
+                name: 'BreadcrumbChildrenDetailDemo',
+                component: () =>
+                  import(
+                    /* webpackChunkName: "ChildrenListDetail" */ '@/views/demo/feat/breadcrumb/ChildrenListDetail'
+                  ),
+                meta: {
+                  title: '层级列表详情',
+                  hideMenu: true,
+                  hideTab: true,
+                  currentActiveMenu: '/feat/breadcrumb/children',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/input',
     name: 'Input',
     meta: {
@@ -194,5 +278,7 @@ const router = createRouter({
   // eslint-disable-next-line prettier/prettier
   routes: syncRoutes as RouteRecordRaw[],
 });
+
+createPageGuard(router);
 
 export default router;

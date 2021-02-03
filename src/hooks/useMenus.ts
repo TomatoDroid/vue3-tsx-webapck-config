@@ -18,7 +18,11 @@ export default function (
  * @param parentPath
  */
 function recursionJionMenuPath(menu: AppRouteRecordRaw, parentPath = '') {
-  parentPath = parentPath ? `${parentPath}/${menu.path}` : menu.path;
+  parentPath = parentPath
+    ? menu.path
+      ? `${parentPath}/${menu.path}`
+      : parentPath
+    : menu.path;
   if (menu.children) {
     menu.children.forEach((child) => {
       recursionJionMenuPath(child, parentPath);

@@ -13,6 +13,12 @@ export interface RouteMeta {
   hideBreadcurmb?: boolean;
   // Never show in menu
   hideMenu?: boolean;
+  // fixed tab
+  affix?: boolean;
+  // Never show in tab
+  hideTab?: boolean;
+  // Currently active menu
+  currentActiveMenu?: string;
 }
 // TODO
 export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {

@@ -1,14 +1,6 @@
 import { RouteLocationMatched, RouterLink } from 'vue-router';
 
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  ref,
-  toRaw,
-  toRefs,
-  watchEffect,
-} from 'vue';
+import { computed, defineComponent, ref, toRefs, watchEffect } from 'vue';
 import { Breadcrumb, Layout } from 'ant-design-vue';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
 import { appStore } from '@/store/modules/app';
@@ -24,11 +16,6 @@ export default defineComponent({
   name: 'LayoutMultipleHeader',
   setup() {
     const collapsedRef = computed(() => appStore.collapsed);
-    // const tabsStateRef = computed(() => store.state.tab.tabsState);
-
-    // onMounted(() => {
-    //   console.log('tabsStateRef', toRaw(tabsStateRef.value));
-    // });
 
     const onClick = () => {
       appStore.commitToggleCollapsed();
@@ -37,6 +24,7 @@ export default defineComponent({
     const { menus } = useMenus(cloneDeep(syncRoutes));
     const { matched } = toRefs(useRoute());
     const routes = ref<RouteLocationMatched[]>([]);
+
     watchEffect(() => {
       /**
        * 广搜目标路径的菜单路径
@@ -62,12 +50,15 @@ export default defineComponent({
       };
 
       const lastMatched = matched.value[matched.value.length - 1];
+      const { meta, path } = lastMatched;
+      const { currentActiveMenu } = meta;
       // 获取当前页面对应的菜单
-      const currentMenu = menus.find((menu) =>
-        lastMatched.path.includes(menu.path)
-      )!;
+      const currentMenu = menus.find((menu) => path.includes(menu.path))!;
 
-      const breadcrumbList = findMenuPathByBFS(currentMenu, lastMatched.path);
+      const breadcrumbList = findMenuPathByBFS(currentMenu, path);
+      if (currentActiveMenu) {
+        breadcrumbList.push(lastMatched as any);
+      }
       routes.value = breadcrumbList as any;
     });
 

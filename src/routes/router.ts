@@ -67,7 +67,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
       {
         path: 'analysis',
         name: 'Analysis',
-        component: TestPage,
+        component: () => import('@/views/dashboard'),
         meta: {
           title: '分析页',
         },

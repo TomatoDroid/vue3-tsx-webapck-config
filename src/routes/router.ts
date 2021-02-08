@@ -67,7 +67,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
       {
         path: 'analysis',
         name: 'Analysis',
-        component: () => import('@/views/dashboard'),
+        component: () => import('@/views/dashboard/analysis'),
         meta: {
           title: '分析页',
         },
@@ -265,8 +265,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     path: '/input',
     name: 'Input',
     meta: {
-      title: 'test',
-      icon: '',
+      title: 'tst',
       hideMenu: true,
     },
     component: () => import(/* webpackChunkName: "input" */ '@/views/input'),

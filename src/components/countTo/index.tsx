@@ -6,7 +6,6 @@ import {
   reactive,
   toRef,
   watch,
-  watchEffect,
 } from 'vue';
 
 export default defineComponent({

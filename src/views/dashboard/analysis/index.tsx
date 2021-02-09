@@ -6,9 +6,6 @@ import { growCardList } from './data';
 
 export default defineComponent({
   name: 'DashboardPage',
-  setup() {
-    return {};
-  },
   render() {
     return (
       <div class="p-4">
@@ -26,7 +23,16 @@ export default defineComponent({
               helpMessage="tooltip消息"
               canExpen={true}
             >
-              <h1>我是content</h1>
+              <h1 class="bg-red-200 border-gray-500 p-20 h-20 overflow-scroll">
+                <div>我是content</div>
+                <div>我是content</div>
+                <div>我是content</div>
+                <div>我是content</div>
+                <div>我是content</div>
+                <div>我是content</div>
+                <div>我是content</div>
+                <div>我是content</div>
+              </h1>
             </CollapseContainer>
           </Col>
         </Row>

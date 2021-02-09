@@ -5,6 +5,7 @@ import {
   UpOutlined,
 } from '@ant-design/icons-vue';
 import { Skeleton, Tooltip } from 'ant-design-vue';
+import ExpandTransition from '../transition/ExpandTransition';
 
 export default defineComponent({
   name: 'CollapseContainer',
@@ -59,13 +60,15 @@ export default defineComponent({
             </div>
           )}
         </div>
-        <div>
+        <ExpandTransition>
           {this.laoding ? (
             <Skeleton></Skeleton>
           ) : (
-            this.showRef && this.$slots.default && this.$slots.default()
+            <div v-show={this.showRef}>
+              {this.$slots.default && this.$slots.default()}
+            </div>
           )}
-        </div>
+        </ExpandTransition>
       </div>
     );
   },

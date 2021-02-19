@@ -71,6 +71,7 @@
   "dependencies": {
     "@ant-design-vue/use": "0.0.1-alpha.9",
     "@ant-design/icons-vue": "^6.0.0",
+    "@antv/g2plot": "^2.3.11",
     "@babel/runtime": "^7.12.5",
     "@babel/runtime-corejs3": "^7.12.5",
     "@iconify/iconify": "^2.0.0-rc.6",

@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive, ref, watchEffect } from 'vue';
 import {
   InfoCircleOutlined,
   DownOutlined,
@@ -32,13 +32,13 @@ export default defineComponent({
     };
     return {
       showRef,
-      triggerExpend,
+      triggerExpend
     };
   },
   render() {
     return (
       <div class="bg-white shadow-sm rounded p-3 w-full">
-        <div class="flex justify-between">
+        <div class="flex justify-between mb-3">
           <div class="flex items-center">
             <span class="text-base font-bold text-black ml-2 select-none">
               {this.title}

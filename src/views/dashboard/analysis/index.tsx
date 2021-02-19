@@ -1,6 +1,7 @@
 import CollapseContainer from '@/components/container/CollapseContainer';
 import { Col, Row } from 'ant-design-vue';
 import { defineComponent } from 'vue';
+import AnalysisLine from './components/AnalysisLine';
 import GroudCard from './components/GroudCard';
 import { growCardList } from './data';
 
@@ -20,19 +21,10 @@ export default defineComponent({
           <Col md={24} xl={17}>
             <CollapseContainer
               title="产品成交额"
-              helpMessage="tooltip消息"
+              helpMessage="产品成交额"
               canExpen={true}
             >
-              <h1 class="bg-red-200 border-gray-500 p-20 h-20 overflow-scroll">
-                <div>我是content</div>
-                <div>我是content</div>
-                <div>我是content</div>
-                <div>我是content</div>
-                <div>我是content</div>
-                <div>我是content</div>
-                <div>我是content</div>
-                <div>我是content</div>
-              </h1>
+              <AnalysisLine></AnalysisLine>
             </CollapseContainer>
           </Col>
         </Row>

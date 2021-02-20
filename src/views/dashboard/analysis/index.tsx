@@ -2,6 +2,7 @@ import CollapseContainer from '@/components/container/CollapseContainer';
 import { Col, Row } from 'ant-design-vue';
 import { defineComponent } from 'vue';
 import AnalysisLine from './components/AnalysisLine';
+import AnalysisPie from './components/AnalysisPie';
 import GroudCard from './components/GroudCard';
 import { growCardList } from './data';
 
@@ -26,6 +27,14 @@ export default defineComponent({
             >
               <AnalysisLine></AnalysisLine>
             </CollapseContainer>
+            <Row class="mt-3">
+              <Col md={12} xl={12}>
+                <CollapseContainer title="产品成交额">
+                  <AnalysisPie></AnalysisPie>
+                </CollapseContainer>
+              </Col>
+              <Col md={12} xl={12}></Col>
+            </Row>
           </Col>
         </Row>
       </div>

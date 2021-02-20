@@ -49,7 +49,7 @@ export default defineComponent({
             <Layout.Content>
               <RouterView></RouterView>
             </Layout.Content>
-            <Layout.Footer>footer</Layout.Footer>
+            {/* <Layout.Footer>footer</Layout.Footer> */}
           </Layout>
         </Layout>
       );

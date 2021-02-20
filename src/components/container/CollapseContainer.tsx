@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref, watchEffect } from 'vue';
+import { defineComponent, ref } from 'vue';
 import {
   InfoCircleOutlined,
   DownOutlined,
@@ -32,7 +32,7 @@ export default defineComponent({
     };
     return {
       showRef,
-      triggerExpend
+      triggerExpend,
     };
   },
   render() {

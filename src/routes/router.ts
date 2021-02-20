@@ -262,6 +262,49 @@ export const syncRoutes: AppRouteRecordRaw[] = [
     ],
   },
   {
+    path: '/page-demo',
+    name: 'PageDemo',
+    redirect: '/page-demo/form',
+    meta: {
+      title: '页面',
+      icon: 'mdi:page-next-outline',
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'form',
+        name: 'FormPage',
+        redirect: '/page-demo/form/step',
+        meta: {
+          icon: 'mdi:page-next-outline',
+          title: '表单页',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "ParentView" */ '@/layout/page/ParentView'
+          ),
+        children: [
+          {
+            path: 'step',
+            name: 'FormStepPage',
+            meta: {
+              title: '分步表单',
+            },
+            component: () => import('@/views/demo/page/form/step'),
+          },
+          {
+            path: 'high',
+            name: 'FormHighPage',
+            meta: {
+              title: '高级表单',
+            },
+            component: () => import('@/views/demo/page/form/step'),
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/input',
     name: 'Input',
     meta: {

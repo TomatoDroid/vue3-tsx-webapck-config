@@ -1,18 +1,10 @@
 import { Line } from '@antv/g2plot';
 import { defineComponent, onMounted, ref } from 'vue';
+import { basicProps } from './props';
 
 export default defineComponent({
   name: 'AnalysisLine',
-  props: {
-    height: {
-      type: String,
-      default: '280px',
-    },
-    width: {
-      type: String,
-      default: '100%',
-    },
-  },
+  props: basicProps,
   setup(props) {
     const chartRef = ref();
     const data = [

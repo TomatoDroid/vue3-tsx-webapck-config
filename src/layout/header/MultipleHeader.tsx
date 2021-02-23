@@ -11,6 +11,7 @@ import { cloneDeep } from 'lodash';
 import { AppRouteRecordRaw } from '@/routes/types';
 import UserDropDown from './userDropDown';
 import MultipleTabs from '../tabs/MultipleTabs';
+import FullScreen from './FullScreen';
 
 export default defineComponent({
   name: 'LayoutMultipleHeader',
@@ -93,6 +94,7 @@ export default defineComponent({
             </Breadcrumb>
           </div>
           <div class="flex items-center h-full">
+            <FullScreen></FullScreen>
             <UserDropDown></UserDropDown>
           </div>
         </header>

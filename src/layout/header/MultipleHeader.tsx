@@ -6,7 +6,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
 import { appStore } from '@/store/modules/app';
 import { useRoute } from 'vue-router';
 import useMenus from '@/hooks/useMenus';
-import { syncRoutes } from '@/routes/router';
+import { REDIRECT_NAME, syncRoutes } from '@/routes/router';
 import { cloneDeep } from 'lodash';
 import { AppRouteRecordRaw } from '@/routes/types';
 import UserDropDown from './userDropDown';
@@ -22,7 +22,7 @@ export default defineComponent({
     };
 
     const { menus } = useMenus(cloneDeep(syncRoutes));
-    const { matched } = toRefs(useRoute());
+    const { matched, name } = toRefs(useRoute());
     const routes = ref<RouteLocationMatched[]>([]);
 
     watchEffect(() => {
@@ -48,6 +48,8 @@ export default defineComponent({
         }
         return res;
       };
+
+      if (name.value === REDIRECT_NAME) return;
 
       const lastMatched = matched.value[matched.value.length - 1];
       const { meta, path } = lastMatched;

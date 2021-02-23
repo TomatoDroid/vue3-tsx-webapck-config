@@ -7,7 +7,7 @@ import {
   getModule,
 } from 'vuex-module-decorators';
 import store from '@/store/index';
-import router from '@/routes/router';
+import router, { REDIRECT_NAME } from '@/routes/router';
 import { unref } from 'vue';
 
 @Module({ name: 'tab', dynamic: true, store })
@@ -41,7 +41,12 @@ class Tab extends VuexModule {
 
   @Action
   addTabAction(route: RouteLocationNormalized): void {
-    const { path, meta } = route;
+    const { path, meta, name } = route;
+
+    if (!name || name === REDIRECT_NAME) {
+      return;
+    }
+
     const { hideTab, currentActiveMenu } = meta;
 
     const isHide = !hideTab ? null : currentActiveMenu;

@@ -6,6 +6,8 @@ import { createPageGuard } from './pageGuard';
 
 import TestPage from '@/views/TestPage';
 
+export const REDIRECT_NAME = 'Redirect';
+
 export const syncRoutes: AppRouteRecordRaw[] = [
   {
     path: '/login',
@@ -301,6 +303,29 @@ export const syncRoutes: AppRouteRecordRaw[] = [
             component: () => import('@/views/demo/page/form/step'),
           },
         ],
+      },
+    ],
+  },
+  // 重定向定制路由，该路匹配后再由该组件replace到之前路径
+  {
+    path: '/redirect',
+    name: REDIRECT_NAME,
+    meta: {
+      hideMenu: true,
+      hideBreadcurmb: true,
+      title: REDIRECT_NAME,
+    },
+    component: Layout,
+    children: [
+      {
+        path: ':path(.*)',
+        name: REDIRECT_NAME,
+        meta: {
+          hideMenu: true,
+          hideBreadcurmb: true,
+          title: REDIRECT_NAME,
+        },
+        component: () => import('@/views/sys/redirect/index'),
       },
     ],
   },

@@ -3,6 +3,7 @@ import { Tabs } from 'ant-design-vue';
 import './index.less';
 import { tabStore } from '@/store/modules/tab';
 import { useRouter } from 'vue-router';
+import TabRedo from './components/TabRedo';
 
 export default defineComponent({
   name: 'MultipleTabs',
@@ -34,18 +35,22 @@ export default defineComponent({
           onEdit={handleEdit as any}
           onChange={handleChange}
         >
-          {getTabsStateRef.value.map((item) => (
-            <Tabs.TabPane
-              key={item.path}
-              closable={!(item.meta && item.meta.affix)}
-            >
-              {{
-                tab: () => (
-                  <span style="font-size:12px">{item.meta.title}</span>
-                ),
-              }}
-            </Tabs.TabPane>
-          ))}
+          {{
+            default: () =>
+              getTabsStateRef.value.map((item) => (
+                <Tabs.TabPane
+                  key={item.path}
+                  closable={!(item.meta && item.meta.affix)}
+                >
+                  {{
+                    tab: () => (
+                      <span style="font-size:12px">{item.meta.title}</span>
+                    ),
+                  }}
+                </Tabs.TabPane>
+              )),
+            tabBarExtraContent: () => <TabRedo></TabRedo>,
+          }}
         </Tabs>
       </div>
     );

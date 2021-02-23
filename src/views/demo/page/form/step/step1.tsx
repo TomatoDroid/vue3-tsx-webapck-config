@@ -1,6 +1,7 @@
 import { useForm } from '@ant-design-vue/use';
 import { Button, Form, Input, Select } from 'ant-design-vue';
 import { defineComponent, reactive, toRaw } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Step1',
@@ -55,7 +56,7 @@ export default defineComponent({
 
     return () => (
       <div class="mx-auto my-0" style="width:450px">
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 14 }}>
+        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
           <Form.Item label="付款账户" {...validateInfos.account}>
             <Select
               v-model={[formData.account, 'value', ['modifier']]}
@@ -91,7 +92,7 @@ export default defineComponent({
               prefix="￥"
             ></Input>
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+          <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
             <Button type="primary" onClick={onSubmit}>
               下一步
             </Button>

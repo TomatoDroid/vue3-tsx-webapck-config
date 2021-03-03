@@ -1,23 +1,41 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 export interface RouteMeta {
-  // title
+  /**
+   * title
+   */
   title: string;
-  // role info
+  /**
+   * role info
+   */
   roles?: string[];
-  // wheather not to cache
+  /**
+   * wheather not to cache, but 如果想要设置缓存，则需要正router的name与组件name保持一致, 路由的component: getParentLayout(name),
+   */
   ignoreKeepAlive?: boolean;
-  // icon on tab
+  /**
+   * icon on tab
+   */
   icon?: string;
-  // Never show in breadcrumb
+  /**
+   * Never show in breadcrumb
+   */
   hideBreadcurmb?: boolean;
-  // Never show in menu
+  /**
+   * Never show in menu
+   */
   hideMenu?: boolean;
-  // fixed tab
+  /**
+   * fixed tab
+   */
   affix?: boolean;
-  // Never show in tab
+  /**
+   *  Never show in tab
+   */
   hideTab?: boolean;
-  // Currently active menu
+  /**
+   *  Currently active menu
+   */
   currentActiveMenu?: string;
 }
 // TODO

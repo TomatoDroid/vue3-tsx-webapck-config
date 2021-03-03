@@ -9,15 +9,23 @@ import {
 import store from '@/store/index';
 import router, { REDIRECT_NAME } from '@/routes/router';
 import { unref } from 'vue';
+import { getRoute } from '@/routes/pageGuard';
 
+export const PAGE_LAYOUT_KEY = '__PAGE_LAYOUT__';
 @Module({ name: 'tab', dynamic: true, store })
 class Tab extends VuexModule {
   tabsState: RouteLocationNormalized[] = [];
+
+  cachedMapState = new Map<string, string[]>();
 
   tabActiveKey = '';
 
   get getTabsState(): RouteLocationNormalized[] {
     return this.tabsState;
+  }
+
+  get getCachedMapState(): Map<string, string[]> {
+    return this.cachedMapState;
   }
 
   @Mutation
@@ -37,6 +45,44 @@ class Tab extends VuexModule {
   @Mutation
   commitSetActiveKey(key: string) {
     this.tabActiveKey = key;
+  }
+
+  @Mutation
+  commitCachedMapState() {
+    const cacheMap = new Map<string, string[]>();
+    const pageCacheSet = new Set<string>();
+
+    this.tabsState.forEach((tab) => {
+      const item = getRoute(tab);
+      const needCache = !item.meta.ignoreKeepAlive;
+      if (!needCache) return;
+      if (item.matched) {
+        const matched = item.matched;
+        if (!matched || matched.length < 2) return;
+
+        const len = matched.length;
+        for (let i = 0; i < len; i++) {
+          const key = matched[i].name as string;
+
+          if (i < 2) {
+            pageCacheSet.add(key);
+          }
+
+          if (i < len - 1) {
+            const { name, meta } = matched[i + 1];
+            if (meta) {
+              const mapList = cacheMap.get(key) || [];
+              if (!mapList.includes(name as string)) {
+                mapList.push(name as string);
+              }
+              cacheMap.set(key, mapList);
+            }
+          }
+        }
+      }
+    });
+    cacheMap.set(PAGE_LAYOUT_KEY, Array.from(pageCacheSet));
+    this.cachedMapState = cacheMap;
   }
 
   @Action
@@ -63,6 +109,8 @@ class Tab extends VuexModule {
         .find((item) => item.path === currentActiveMenu);
       this.commitTabRoutesState(parentRouter as any);
     }
+
+    this.commitCachedMapState();
   }
 
   @Action

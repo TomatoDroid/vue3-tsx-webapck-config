@@ -5,6 +5,7 @@ import logo from '@/assets/images/logo.png';
 import { RouterView } from 'vue-router';
 import MultipleHeader from './header/MultipleHeader';
 import { appStore } from '@/store/modules/app';
+import PageLayout from './page';
 
 export default defineComponent({
   name: '',
@@ -47,7 +48,7 @@ export default defineComponent({
           <Layout class="h-full">
             <MultipleHeader></MultipleHeader>
             <Layout.Content>
-              <RouterView></RouterView>
+              <PageLayout></PageLayout>
             </Layout.Content>
             {/* <Layout.Footer>footer</Layout.Footer> */}
           </Layout>

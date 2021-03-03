@@ -5,6 +5,7 @@ import Layout from '@/layout/index';
 import { createPageGuard } from './pageGuard';
 
 import TestPage from '@/views/TestPage';
+import { getParentLayout } from './constant';
 
 export const REDIRECT_NAME = 'Redirect';
 
@@ -201,10 +202,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
         path: 'breadcrumb',
         name: 'BreadcrumbDemo',
         redirect: '/feat/breadcrumb/flat',
-        component: () =>
-          import(
-            /* webpackChunkName: "ParentView" */ '@/layout/page/ParentView'
-          ),
+        component: getParentLayout('BreadcrumbDemo'),
         meta: {
           title: '面包屑导航',
         },
@@ -224,10 +222,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
             path: 'children',
             name: 'BreadcrumbChildrenDemo',
             redirect: '/feat/breadcrumb/children',
-            component: () =>
-              import(
-                /* webpackChunkName: "ParentView" */ '@/layout/page/ParentView'
-              ),
+            component: getParentLayout('BreadcrumbChildrenDemo'),
             meta: {
               title: '层级详情',
             },
@@ -281,10 +276,7 @@ export const syncRoutes: AppRouteRecordRaw[] = [
           icon: 'mdi:page-next-outline',
           title: '表单页',
         },
-        component: () =>
-          import(
-            /* webpackChunkName: "ParentView" */ '@/layout/page/ParentView'
-          ),
+        component: getParentLayout('FormPage'),
         children: [
           {
             path: 'step',
@@ -326,6 +318,73 @@ export const syncRoutes: AppRouteRecordRaw[] = [
           title: REDIRECT_NAME,
         },
         component: () => import('@/views/sys/redirect/index'),
+      },
+    ],
+  },
+  {
+    path: '/level',
+    name: 'Level',
+    meta: {
+      title: '多级菜单',
+      icon: 'carbon:user-role',
+    },
+    redirect: '/level/menu1/menu1-1/menu1-1-1',
+    component: Layout,
+    children: [
+      {
+        path: 'menu1',
+        name: 'Menu1',
+        redirect: '/level/menu1/menu1-1/menu1-1-1',
+        meta: {
+          title: 'Menu1',
+        },
+        component: getParentLayout('Menu1'),
+        children: [
+          {
+            path: 'menu1-1',
+            name: 'Menu11',
+            redirect: '/level/menu1/menu1-1/menu1-1-1',
+            meta: {
+              title: 'Menu1-1',
+            },
+            component: getParentLayout('Menu11'),
+            children: [
+              {
+                path: 'menu1-1-1',
+                name: 'Menu111',
+                meta: {
+                  title: 'Menu1-1-1',
+                },
+                component: () =>
+                  import(
+                    /* webpackChunkName: "ParentView" */ '@/views/demo/level/Menu111'
+                  ),
+              },
+            ],
+          },
+          {
+            path: 'menu1-2',
+            name: 'Menu12',
+            meta: {
+              title: 'Menu1-2',
+            },
+            component: () =>
+              import(
+                /* webpackChunkName: "ParentView" */ '@/views/demo/level/Menu12'
+              ),
+          },
+        ],
+      },
+      {
+        path: 'menu2',
+        name: 'Menu2',
+        meta: {
+          title: 'Menu2',
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "ParentView" */ '@/views/demo/level/Menu2'
+          ),
       },
     ],
   },

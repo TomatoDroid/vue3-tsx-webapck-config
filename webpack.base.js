@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WebpackBar = require('webpackbar');
 const package = require('./package.json');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -30,11 +31,10 @@ module.exports = {
         use: [
           {
             loader: 'thread-loader',
-            options: {
-              workers: 3,
-            },
           },
-          'babel-loader',
+          {
+            loader: 'babel-loader?cacheDirectory=true',
+          },
           {
             loader: 'ts-loader',
             options: {
@@ -43,6 +43,7 @@ module.exports = {
             },
           },
         ],
+        include: path.resolve('src'),
         exclude: /node_modules/,
       },
       {
@@ -96,11 +97,14 @@ module.exports = {
     new CleanWebpackPlugin(),
     new ESLintPlugin({
       extensions: ['ts', 'js'],
+      exclude: 'node_modules',
+      threads: true,
     }),
     new webpack.WatchIgnorePlugin([/(le|c)ss\.d\.ts$/]),
     new WebpackBar({
       name: `🚚  ${package.name}`,
       color: '#2f54eb',
     }),
+    new ForkTsCheckerWebpackPlugin(),
   ],
 };

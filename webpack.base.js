@@ -21,7 +21,7 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
     alias: {
-      '@': '/Users/zhensir/zhen-git/vue3-tsx-webapck-config/src',
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   module: {
